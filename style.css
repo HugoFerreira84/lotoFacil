@@ -1,0 +1,237 @@
+/* Estilos globais */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo do título principal */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4e73df;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Estilo do subtítulo */
+h4 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #6c757d;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+/* Formulário */
+input[type="text"] {
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+    box-shadow: none;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%; /* Faz o input ocupar toda a largura disponível */
+}
+
+input[type="text"]:focus {
+    border-color: #4e73df;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Botões */
+button {
+    font-size: 1.125rem;
+    padding: 12px 20px;
+    border-radius: 0.375rem;
+    border: none;
+    transition: all 0.2s ease-in-out;
+    width: 48%; /* Faz os botões ocuparem quase toda a largura disponível */
+}
+
+button:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button i {
+    margin-right: 8px;
+}
+
+/* Estilos personalizados para os botões */
+.btn-primary {
+    background-color: #4e73df;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2e59d9;
+}
+
+.btn-success {
+    background-color: #1cc88a;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #17a673;
+}
+
+.btn-info {
+    background-color: #36b9cc;
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #2c9faf;
+}
+
+.btn-danger {
+    background-color: #e74a3b;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c73628;
+}
+
+/* Estilos das listas */
+ul li {
+    font-size: 1.1rem;
+    padding: 12px;
+    border-radius: 0.375rem;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+ul li:hover {
+    background-color: #f1f3f5;
+}
+
+ul li.list-group-item-success {
+    background-color: #d4edda !important;
+    color: #155724;
+}
+
+ul li.list-group-item-warning {
+    background-color: #fff3cd !important;
+    color: #856404;
+}
+
+/* Caixa de resultados e verificação de acertos */
+.result-box {
+    height: 300px; /* Definindo altura fixa para permitir rolagem */
+    overflow-y: auto; /* Adiciona a barra de rolagem vertical */
+    padding: 10px;
+    border-radius: 0.375rem;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+/* Ajustes de layout */
+.container {
+    width: 100%; /* Faz a container ocupar toda a largura da tela */
+    max-width: 90%; /* Limita o tamanho máximo da largura em telas grandes */
+    margin: auto;
+    padding: 10px;
+}
+
+/* Layout para colunas */
+.d-flex {
+    justify-content: space-between;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap; /* Permite que as colunas se ajustem em telas pequenas */
+    justify-content: center;
+}
+
+.col-md-4 {
+    flex: 1;
+    margin-right: 15px;
+    margin-bottom: 20px;
+    max-width: 1000%; /* Impede que as colunas excedam a largura disponível */
+}
+
+/* Ajustes de responsividade */
+@media (max-width: 991px) {
+    .col-md-4 {
+        max-width: 40%;
+    }
+}
+
+@media (max-width: 767px) {
+    .col-md-4 {
+        max-width: 100%;
+        margin-right: 0;
+    }
+
+    .d-flex {
+        flex-direction: column; /* Empilha os botões em dispositivos pequenos */
+        align-items: center;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Melhorando o estilo do placeholder */
+input[type="text"]::placeholder {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Animações de ícones e botões */
+.btn i {
+    font-size: 1.25rem;
+}
+
+/* Estilo da caixa de resumo */
+#summary {
+    font-size: 1rem;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 0.375rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de mensagem de sucesso */
+.swal2-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.swal2-popup {
+    font-family: 'Roboto', sans-serif;
+}
+
+.swal2-confirm {
+    background-color: #1cc88a;
+    color: white;
+    width: 100px
+}
+
+.swal2-cancel {
+    background-color: #e74a3b;
+    color: white;
+}
+
+.swal2-confirm:hover {
+    background-color: #17a673;
+}
+
+.swal2-cancel:hover {
+    background-color: #c73628;
+}

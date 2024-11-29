@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Jogos Lotofácil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEJCRQJb7IQ7wzNfF1XxRkpZ60FxsFjlpu6F7zQ6DFf05m1lOxks1XlRk60Fg" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container py-4">
+        <h1 class="text-center mb-4">Gerador de Jogos Lotofácil</h1>
+
+        <!-- Formulário para escolher o fechamento -->
+        <div class="mb-3">
+            <label for="gameCount" class="form-label">Selecione o número de jogos:</label>
+            <select id="gameCount" class="form-select">
+                <option value="5">5 Jogos</option>
+                <option value="10">10 Jogos</option>
+            </select>
+        </div>
+
+        <!-- Exibir valor gasto por jogo -->
+        <div class="mb-3" id="costDisplay">
+            <p><strong>Valor por jogo:</strong> R$ <span id="gameCost">3,00</span></p>
+        </div>
+
+        <!-- Formulário para inserir números sorteados -->
+        <div class="mb-3 col-md-5" style="width: 480px; margin-bottom: 30px;">
+            <label for="drawNumbers" class="form-label">Digite os 15 números sorteados (separados por vírgula):</label>
+            <input type="text" class="form-control" id="drawNumbers" placeholder="Exemplo: 1, 2, 3, ..., 15">
+        </div>
+
+        <!-- Botões de interação -->
+        <div class="d-flex justify-content-center mb-3 m-0 p-0">
+            <button id="generateGames" class="btn btn-primary">
+                <i class="bi bi-play-circle"></i> Gerar Jogos
+            </button>
+            <button id="checkResults" class="btn btn-success" disabled>
+                <i class="bi bi-check-circle"></i> Verificar Resultados
+            </button>
+            <!-- Botão para abrir a página de impressão -->
+        </div>
+       
+
+        <!-- Resultados e verificação -->
+        <div class="row justify-content-center mt-4">
+            <!-- Coluna para exibir resultados de jogos -->
+            <div class="col-md-4 mb-3">
+                <h4>Jogos Gerados</h4>
+                <div id="gamesContainer" class="result-box">
+                    <!-- Resultados dos jogos gerados aparecerão aqui -->
+                    <ul id="gameList" class="list-group">
+                        <!-- Jogos gerados aparecem aqui -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Coluna para o verificador de acertos -->
+            <div class="col-md-4 mb-3">
+                <h4>Verificar Acertos</h4>
+                <div id="verifyContainer" class="result-box">
+                    <!-- Resultados de verificação de jogos serão exibidos aqui -->
+                    <ul id="resultList" class="list-group">
+                        <!-- Itens de resultados aparecerão aqui -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Resumo de resultados -->
+            <div class="col-md-4 mb-3">
+                <h4>Resumo</h4>
+                <div id="summary" class="result-box"></div>
+            </div>
+        </div>
+
+        <!-- Botões de ação -->
+        <div class="d-flex justify-content-between mt-3">
+            <button id="clearAll" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Limpar Tudo
+            </button>
+            <button id="downloadGames" class="btn btn-info" disabled>
+                <i class="bi bi-download"></i> Baixar Jogos
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS e Popper.js -->
