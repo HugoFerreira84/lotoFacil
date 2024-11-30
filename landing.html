@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bem-vindo! - Captura de E-mail</title>
+    <!-- Incluindo o Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f7f7f7;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 400px;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .alert {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Bem-vindo!</h1>
+        <p>Para acessar as funcionalidades, do <strong>Lotofácil Generator</strong> por favor, insira seu nome e e-mail:</p>
+
+        <!-- Alerta de erro -->
+        <div class="alert alert-danger" id="errorAlert" role="alert">
+            Por favor, insira um e-mail válido.
+        </div>
+
+        <!-- Formulário para Captura de E-mail -->
+        <div class="container mt-5">
+            <h4>Cadastro de E-mail</h4>
+            <form id="emailForm">
+                <div class="mb-3">
+                    <label for="userName" class="form-label">Informe seu Nome:</label>
+                    <input type="text" class="form-control" id="userName" placeholder="Seu nome">
+                </div>
+                <div class="mb-3">
+                    <label for="emailInput" class="form-label">Informe seu E-mail:</label>
+                    <input type="email" class="form-control" id="emailInput" placeholder="Seu e-mail">
+                </div>
+                <button type="submit" class="btn btn-primary">Validar E-mail</button>
+            </form>
+        </div>
+
+
+    </div>
+
+    <!-- Script de validação e envio para o servidor -->
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        // Inicializando o EmailJS com a sua chave pública
+        emailjs.init("DqSJMQF89kpKsUbST"); // Substitua 'YOUR_USER_ID' pela sua chave pública da API do EmailJS
+
+        // Adiciona o listener do formulário
+        document.getElementById('emailForm').addEventListener('submit', function (event) {
+            event.preventDefault();  // Impede o envio do formulário
+
+            const userName = document.getElementById('userName').value.trim();
+            const userEmail = document.getElementById('userEmail').value.trim();
+            const errorAlert = document.getElementById('errorAlert');
+
+            // Validação simples de e-mail
+            if (userEmail === "" || !/\S+@\S+\.\S+/.test(userEmail)) {
+                errorAlert.style.display = 'block';  // Exibe o alerta de erro
+            } else {
+                // Enviar o e-mail via EmailJS
+                const templateParams = {
+                    from_name: userName,
+                    from_email: userEmail
+                };
+
+                // Enviar o email para o seu endereço de e-mail configurado no template
+                emailjs.send("service_8dtlbdl", "template_0ycb4bq", templateParams)
+                    .then(function (response) {
+                        console.log('Sucesso:', response);
+                        // Redirecionar para a página principal
+                        window.location.href = "index.html";
+                    }, function (error) {
+                        console.log('Falha:', error);
+                        errorAlert.style.display = 'block';  // Exibe o alerta de erro
+                    });
+            }
+        });
+    </script>
+
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const email = document.getElementById('userEmail').value;
+            if (email) {
+                localStorage.setItem('userEmail', email);
+                window.location.href = 'index.html'; // Redireciona para a página principal
+            }
+        });
+
+        // Substitua com sua chave da API do Hunter.io
+        const HUNTER_API_KEY = 'bf0cc5468d1768ef05348571ad0b2a2412cb8b73';
+
+        document.getElementById('emailForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Evita o comportamento padrão de submissão do formulário
+
+            const email = document.getElementById('emailInput').value;
+
+            // Verifica se o e-mail não está vazio
+            if (email) {
+                // Validação do formato do e-mail
+                const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailPattern.test(email)) {
+                    alert("Por favor, insira um e-mail válido.");
+                    return;
+                }
+
+                // Validação do e-mail através da API
+                validateEmail(email);
+            } else {
+                alert("Por favor, insira um e-mail.");
+            }
+        });
+
+        function validateEmail(email) {
+            // API URL da Hunter.io para validação de e-mail
+            const apiUrl = `https://api.hunter.io/v2/email-verifier?email=${email}&api_key=${HUNTER_API_KEY}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.data.result === 'deliverable') {
+                        // E-mail válido
+                        alert("E-mail validado com sucesso!");
+                        localStorage.setItem('userEmail', email);  // Armazena o e-mail
+                        window.location.href = 'index.html';  // Redireciona para a página principal
+                    } else {
+                        // E-mail inválido
+                        alert("O e-mail informado não é válido ou não pode ser verificado.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro na validação do e-mail:', error);
+                    alert("Ocorreu um erro ao tentar validar o e-mail. Tente novamente.");
+                });
+        }
+    </script>
+
+    <!-- Incluindo o Bootstrap JS (opcional) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

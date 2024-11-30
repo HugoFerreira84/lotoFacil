@@ -1,8 +1,8 @@
 /* Estilos globais */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f8f9fa;
-    color: #343a40;
+    background-color: #f4f6f9;
+    color: #333;
     margin: 0;
     padding: 0;
 }
@@ -11,43 +11,41 @@ body {
 h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #4e73df;
-    margin-bottom: 30px;
+    color: #007bff;
+    margin-bottom: 40px;
     text-align: center;
 }
 
-/* Estilo do subtítulo */
-h4 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #6c757d;
-    margin-top: 30px;
-    margin-bottom: 10px;
-}
-
-/* Formulário */
+/* Formulário de entrada de números */
 input[type="text"] {
     border-radius: 0.375rem;
     border: 1px solid #ced4da;
-    box-shadow: none;
     padding: 10px;
     font-size: 1rem;
-    width: 100%; /* Faz o input ocupar toda a largura disponível */
+    width: 100%;
+    margin-bottom: 15px;
 }
 
 input[type="text"]:focus {
-    border-color: #4e73df;
-    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* Botões */
+input[type="text"]::placeholder {
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Estilo do botão */
 button {
     font-size: 1.125rem;
     padding: 12px 20px;
     border-radius: 0.375rem;
     border: none;
     transition: all 0.2s ease-in-out;
-    width: 48%; /* Faz os botões ocuparem quase toda a largura disponível */
+    width: 200px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 button:hover {
@@ -60,36 +58,14 @@ button:disabled {
     cursor: not-allowed;
 }
 
-button i {
-    margin-right: 8px;
-}
-
 /* Estilos personalizados para os botões */
 .btn-primary {
-    background-color: #4e73df;
+    background-color: #007bff;
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #2e59d9;
-}
-
-.btn-success {
-    background-color: #1cc88a;
-    color: white;
-}
-
-.btn-success:hover {
-    background-color: #17a673;
-}
-
-.btn-info {
-    background-color: #36b9cc;
-    color: white;
-}
-
-.btn-info:hover {
-    background-color: #2c9faf;
+    background-color: #0069d9;
 }
 
 .btn-danger {
@@ -99,6 +75,24 @@ button i {
 
 .btn-danger:hover {
     background-color: #c73628;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
 }
 
 /* Estilos das listas */
@@ -127,111 +121,89 @@ ul li.list-group-item-warning {
 
 /* Caixa de resultados e verificação de acertos */
 .result-box {
-    height: 300px; /* Definindo altura fixa para permitir rolagem */
-    overflow-y: auto; /* Adiciona a barra de rolagem vertical */
+    height: 300px;
+    overflow-y: auto;
     padding: 10px;
     border-radius: 0.375rem;
     background-color: #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
-}
-
-/* Ajustes de layout */
-.container {
-    width: 100%; /* Faz a container ocupar toda a largura da tela */
-    max-width: 90%; /* Limita o tamanho máximo da largura em telas grandes */
-    margin: auto;
-    padding: 10px;
-}
-
-/* Layout para colunas */
-.d-flex {
-    justify-content: space-between;
-}
-
-.row {
-    display: flex;
-    flex-wrap: wrap; /* Permite que as colunas se ajustem em telas pequenas */
-    justify-content: center;
-}
-
-.col-md-4 {
-    flex: 1;
-    margin-right: 15px;
     margin-bottom: 20px;
-    max-width: 1000%; /* Impede que as colunas excedam a largura disponível */
 }
 
-/* Ajustes de responsividade */
-@media (max-width: 991px) {
-    .col-md-4 {
-        max-width: 40%;
-    }
-}
-
+/* Ajustando o layout para a versão mobile */
 @media (max-width: 767px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
     .col-md-4 {
-        max-width: 100%;
-        margin-right: 0;
+        margin-bottom: 15px;
     }
 
-    .d-flex {
-        flex-direction: column; /* Empilha os botões em dispositivos pequenos */
-        align-items: center;
-    }
-
-    button {
+    .btn {
         width: 100%;
-        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+
+    input[type="text"] {
+        font-size: 0.9rem;
+    }
+
+    .main-content {
+        padding-top: 30px;
+        padding-bottom: 30px;
     }
 }
 
-/* Melhorando o estilo do placeholder */
-input[type="text"]::placeholder {
-    color: #6c757d;
-    font-style: italic;
-}
-
-/* Animações de ícones e botões */
-.btn i {
-    font-size: 1.25rem;
-}
-
-/* Estilo da caixa de resumo */
-#summary {
-    font-size: 1rem;
-    background-color: #ffffff;
+/* Estilo para caixas de informações como sucesso/erro */
+.alert-box {
     padding: 15px;
     border-radius: 0.375rem;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    display: none;
 }
 
-/* Estilo de mensagem de sucesso */
-.swal2-title {
-    font-size: 1.25rem;
-    font-weight: 600;
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
 }
 
-.swal2-popup {
-    font-family: 'Roboto', sans-serif;
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }
 
-.swal2-confirm {
-    background-color: #1cc88a;
-    color: white;
-    width: 100px
+/* Spinner de carregamento */
+.spinner-container {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
 }
 
-.swal2-cancel {
-    background-color: #e74a3b;
-    color: white;
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
 }
 
-.swal2-confirm:hover {
-    background-color: #17a673;
+/* Estilo para o conteúdo principal */
+.main-content {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: #ffffff;
+    border-radius: 0.375rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
 }
 
-.swal2-cancel:hover {
-    background-color: #c73628;
-}

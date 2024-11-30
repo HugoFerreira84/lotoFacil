@@ -55,8 +55,14 @@ document.addEventListener("DOMContentLoaded", function () {
             gameList.appendChild(listItem);
         }
 
+        // Calculando o valor investido e exibindo no card
+        const valorInvestido = gameCount * 3.00; // Custo fixo de 3 reais por jogo
+        document.getElementById('investmentText').textContent = `Investimento Total: R$ ${valorInvestido.toFixed(2)}`;
+
+        // Habilitar botões
         document.getElementById('downloadGames').disabled = false;
         document.getElementById('checkResults').disabled = false;
+        document.getElementById('checkPlayerBet').disabled = false;
 
         // Exibindo o Swal de sucesso
         Swal.fire({
@@ -64,14 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
             title: 'Jogos Gerados!',
             text: `${gameCount} jogos foram gerados com sucesso!`,
         });
-
-        // Calculando o valor investido e exibindo no resumo
-        const valorInvestido = gameCount * 3.00; // Custo fixo de 3 reais por jogo
-        const summaryDiv = document.getElementById('summary');
-        summaryDiv.innerHTML = `
-            <p>Valor investido: <b>R$ ${valorInvestido.toFixed(2)}</b></p>
-        `;
     });
+
 
     // Baixar jogos em um arquivo .txt
     document.getElementById('downloadGames').addEventListener('click', () => {
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Verificar resultados
+    // Verificar resultados dos jogos gerados automaticamente
     document.getElementById('checkResults').addEventListener('click', () => {
         const drawNumbers = document.getElementById('drawNumbers').value
             .split(',')
@@ -107,6 +107,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const jogosParaVerificar = [...jogosGerados, ...jogosArquivo];
         verificarJogos(jogosParaVerificar, drawNumbers);
+    });
+
+    // Verificar aposta do usuário
+    document.getElementById('checkPlayerBet').addEventListener('click', () => {
+        const betNumbers = document.getElementById('betNumbers').value
+            .split(',')
+            .map(num => parseInt(num.trim()))
+            .filter(num => !isNaN(num));
+
+        if (betNumbers.length !== 15) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Por favor, insira exatamente 15 números válidos separados por vírgula.',
+            });
+            return;
+        }
+
+        const drawNumbers = document.getElementById('drawNumbers').value
+            .split(',')
+            .map(num => parseInt(num.trim()))
+            .filter(num => !isNaN(num));
+
+        if (drawNumbers.length !== 15) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Por favor, insira exatamente 15 números sorteados.',
+            });
+            return;
+        }
+
+        verificarJogos([betNumbers], drawNumbers);
     });
 
     // Função para verificar os jogos e exibir os acertos
@@ -138,6 +171,17 @@ document.addEventListener("DOMContentLoaded", function () {
             resultList.appendChild(resultItem);
         });
 
+        // Exibir o resumo dos resultados no card de "Investimento e Ganhos"
+        document.getElementById('investmentText').textContent = `Investimento Total: R$ ${(jogosGerados.length * 3.00).toFixed(2)}`;
+
+        let totalAcertosTexto = 0;
+        for (let acertos in totalAcertos) {
+            totalAcertosTexto += totalAcertos[acertos];
+        }
+        document.getElementById('correctHitsText').textContent = `Acertos: ${totalAcertosTexto}`;
+
+        document.getElementById('totalGainText').textContent = `Ganho: R$ ${totalArrecadado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`;
+
         // Exibir o resumo dos resultados na div #summary
         let message = '';
         for (let acertos in totalAcertos) {
@@ -147,9 +191,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         document.getElementById('summary').innerHTML = `
-            <p>Total arrecadado: <b>${totalArrecadado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></p>
-            ${message || '<p>Nenhum jogo com 11 ou mais acertos.</p>'}
-        `;
+        <p>Total arrecadado: <b>${totalArrecadado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</b></p>
+        ${message || '<p>Nenhum jogo com 11 ou mais acertos.</p>'}
+    `;
 
         // Exibindo o Swal de sucesso após a verificação
         Swal.fire({
@@ -159,65 +203,25 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+
     // Limpar tudo
     document.getElementById('clearAll').addEventListener('click', () => {
         document.getElementById('gameList').innerHTML = '';
         document.getElementById('resultList').innerHTML = '';
         document.getElementById('drawNumbers').value = '';
+        document.getElementById('betNumbers').value = ''; // Limpa os números da aposta
         jogosGerados = [];
         jogosArquivo = [];
 
         document.getElementById('downloadGames').disabled = true;
         document.getElementById('checkResults').disabled = true;
+        document.getElementById('checkPlayerBet').disabled = true;
 
+        // Exibindo o Swal de sucesso
         Swal.fire({
-            icon: 'success',
-            title: 'Limpeza Completa',
-            text: 'Todos os campos e listas foram limpos!',
+            icon: 'info',
+            title: 'Tudo Limpo!',
+            text: 'Os jogos e resultados foram limpos com sucesso!',
         });
     });
-    // Função de Impressão
-    document.getElementById('printGames').addEventListener('click', () => {
-        const gameList = document.getElementById('gameList');
-        let content = '<h1 style="text-align: center;">Jogos Gerados</h1>';
-
-        // Para cada jogo gerado
-        jogosGerados.forEach((game, index) => {
-            content += `<h2>Jogo ${index + 1}</h2>`;
-            content += '<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">';
-            content += '<tr>';
-
-            // Organiza os números do jogo em 5 colunas
-            game.forEach((num, idx) => {
-                // Cada número será inserido dentro de uma célula de tabela
-                content += `<td style="width: 20%; text-align: center; padding: 10px; border: 1px solid #000; font-size: 18px; font-weight: bold;">${num}</td>`;
-                // A cada 5 números, cria uma nova linha para a próxima coluna
-                if ((idx + 1) % 5 === 0 && idx !== 0) {
-                    content += '</tr><tr>';
-                }
-            });
-
-            content += '</tr>';
-            content += '</table>';
-        });
-
-        // Criar uma nova janela para imprimir
-        const printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write('<html><head><title>Imprimir Jogos</title>');
-        printWindow.document.write('<style>');
-        printWindow.document.write('body { font-family: Arial, sans-serif; font-size: 14px; margin: 20px; }');
-        printWindow.document.write('table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }');
-        printWindow.document.write('td { width: 20%; text-align: center; padding: 10px; border: 1px solid #000; font-size: 18px; font-weight: bold; }');
-        printWindow.document.write('h1, h2 { text-align: center; }');
-        printWindow.document.write('</style>');
-        printWindow.document.write('</head><body>');
-        printWindow.document.write(content);  // Adiciona os jogos ao conteúdo
-        printWindow.document.write('</body></html>');
-
-        printWindow.document.close();
-        printWindow.print();  // Inicia a impressão
-    });
-
-
-
 });

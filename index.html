@@ -4,96 +4,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Jogos Lotofácil</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KyZXEJCRQJb7IQ7wzNfF1XxRkpZ60FxsFjlpu6F7zQ6DFf05m1lOxks1XlRk60Fg" crossorigin="anonymous">
+    <title>Gerador de Jogos - Lotofácil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.0/dist/sweetalert2.all.min.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin-top: 50px;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            text-align: center;
+        }
+
+        .btn-custom {
+            background-color: #28a745;
+            color: white;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+            font-size: 0.9rem;
+            padding: 8px 15px;
+        }
+
+        .btn-custom:hover {
+            background-color: #218838;
+        }
+
+        .btn-icon {
+            font-size: 1rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #888;
+        }
+
+        .btn {
+            border-radius: 30px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .list-group-item {
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .list-group-item:hover {
+            transform: scale(1.05);
+        }
+
+        .alert-box {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container py-4">
-        <h1 class="text-center mb-4">Gerador de Jogos Lotofácil</h1>
 
-        <!-- Formulário para escolher o fechamento -->
-        <div class="mb-3">
-            <label for="gameCount" class="form-label">Selecione o número de jogos:</label>
-            <select id="gameCount" class="form-select">
-                <option value="5">5 Jogos</option>
-                <option value="10">10 Jogos</option>
-            </select>
+   <!-- Barra de Navegação -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Gerador Lotofácil</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sobre</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contato</a>
+                </li>
+                <!-- Link de Sair -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="logoutLink">
+                        <i class="bi bi-box-arrow-right"></i> Sair
+                    </a>
+                </li>
+            </ul>
         </div>
+    </div>
+</nav>
 
-        <!-- Exibir valor gasto por jogo -->
-        <div class="mb-3" id="costDisplay">
-            <p><strong>Valor por jogo:</strong> R$ <span id="gameCost">3,00</span></p>
-            <!-- Botão de Impressão -->
-            <button id="printGames" class="btn btn-danger" style="width: 300px; margin-bottom: 20px;">Imprimir Jogos</button>
+    <div class="container">
+        <!-- Formulário para Gerar Jogos -->
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="bi bi-bar-chart-line-fill"></i> Gerador de Jogos - Lotofácil</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="gameForm">
+                            <div class="mb-3">
+                                <label for="gameCount" class="form-label">Quantos jogos você deseja gerar?</label>
+                                <select id="gameCount" class="form-select">
+                                    <option value="5">5 Jogos</option>
+                                    <option value="10">10 Jogos</option>
+                                    <option value="15">15 Jogos</option>
+                                </select>
+                            </div>
 
-        </div>
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-custom w-100" id="generateGames">
+                                    <i class="bi bi-plus-circle-dotted btn-icon"></i> Gerar Jogos
+                                </button>
+                            </div>
 
-        <!-- Formulário para inserir números sorteados -->
-        <div class="mb-3 col-md-5" style="width: 480px; margin-bottom: 30px;">
-            <label for="drawNumbers" class="form-label">Digite os 15 números sorteados (separados por vírgula):</label>
-            <input type="text" class="form-control" id="drawNumbers" placeholder="Exemplo: 1, 2, 3, ..., 15">
-        </div>
+                            <div class="mb-3">
+                                <label for="drawNumbers" class="form-label">Números sorteados</label>
+                                <input type="text" class="form-control" id="drawNumbers"
+                                    placeholder="Ex: 1, 2, 3, ..., 15">
+                            </div>
 
-        <!-- Botões de interação -->
-        <div class="d-flex justify-content-center mb-3 m-0 p-0">
-            <button id="generateGames" class="btn btn-primary">
-                <i class="bi bi-play-circle"></i> Gerar Jogos
-            </button>
-            <button id="checkResults" class="btn btn-success" disabled>
-                <i class="bi bi-check-circle"></i> Verificar Resultados
-            </button>
-            <!-- Botão para abrir a página de impressão -->
-        </div>
+                            <div class="mb-3">
+                                <label for="betNumbers" class="form-label">Sua aposta</label>
+                                <input type="text" class="form-control" id="betNumbers"
+                                    placeholder="Ex: 1, 2, 3, ..., 15">
+                            </div>
 
+                            <div class="d-grid gap-2 mb-3">
+                                <button type="button" class="btn btn-primary" id="checkResults">
+                                    <i class="bi bi-search btn-icon"></i> Verificar Resultados
+                                </button>
+                                <button type="button" class="btn btn-warning" id="checkPlayerBet">
+                                    <i class="bi bi-person-check btn-icon"></i> Verificar Sua Aposta
+                                </button>
+                            </div>
 
-        <!-- Resultados e verificação -->
-        <div class="row justify-content-center mt-4">
-            <!-- Coluna para exibir resultados de jogos -->
-            <div class="col-md-4 mb-3">
-                <h4>Jogos Gerados</h4>
-                <div id="gamesContainer" class="result-box">
-                    <!-- Resultados dos jogos gerados aparecerão aqui -->
-                    <ul id="gameList" class="list-group">
-                        <!-- Jogos gerados aparecem aqui -->
-                    </ul>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-success" id="downloadGames" disabled>
+                                    <i class="bi bi-download btn-icon"></i> Baixar Jogos
+                                </button>
+                                <button type="button" class="btn btn-danger" id="clearAll">
+                                    <i class="bi bi-trash btn-icon"></i> Limpar Tudo
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Novo Card de Investimento e Resultados -->
+                <div class="card" style="width: 18rem;">
+                    <h5 class="card-title p-2">Investimento e Ganhos</h5>
+                    <div class="card-body d-flex">
+                        <p class="card-text" id="investmentText">Investimento Total: R$ 0,00</p>
+                        <p class="card-text" id="correctHitsText">Acertos: 0</p>
+                        <p class="card-text" id="totalGainText">Ganho: R$ 0,00</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Coluna para o verificador de acertos -->
-            <div class="col-md-4 mb-3">
-                <h4>Verificar Acertos</h4>
-                <div id="verifyContainer" class="result-box">
-                    <!-- Resultados de verificação de jogos serão exibidos aqui -->
-                    <ul id="resultList" class="list-group">
-                        <!-- Itens de resultados aparecerão aqui -->
-                    </ul>
+            <!-- Cards para Jogos Gerados e Resultados -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="bi bi-check-circle"></i> Jogos Gerados</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul id="gameList" class="list-group"></ul>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Resumo de resultados -->
-            <div class="col-md-4 mb-3">
-                <h4>Resumo</h4>
-                <div id="summary" class="result-box"></div>
-            </div>
-        </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="bi bi-file-earmark-bar-graph"></i> Resultados</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul id="resultList" class="list-group"></ul>
+                    </div>
+                </div>
 
-        <!-- Botões de ação -->
-        <div class="d-flex justify-content-between mt-3">
-            <button id="clearAll" class="btn btn-danger">
-                <i class="bi bi-trash"></i> Limpar Tudo
-            </button>
-            <button id="downloadGames" class="btn btn-info" disabled>
-                <i class="bi bi-download"></i> Baixar Jogos
-            </button>
+
+
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Rodapé -->
+    <div class="footer">
+        <p>&copy; 2024 Gerador de Jogos Lotofácil. Todos os direitos reservados.</p>
+    </div>
+
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Bootstrap JS e Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Verificação de e-mail
+        if (!localStorage.getItem('userEmail')) {
+            window.location.href = 'landing.html'; // Redireciona para a página de captura de e-mail
+        }
+
+        // Lógica para gerar jogos e interações
+        document.getElementById('generateGames').addEventListener('click', function () {
+            let gameCount = document.getElementById('gameCount').value;
+            // Função para gerar jogos e exibir...
+        });
+
+        // Outros eventos de interação para verificar resultados, apostas, etc.
+        // Lógica para o link de "Sair"
+        document.getElementById('logoutLink').addEventListener('click', function (event) {
+            event.preventDefault(); // Evita o comportamento padrão de navegação
+            // Remove o e-mail do localStorage
+            localStorage.removeItem('userEmail');
+            // Redireciona para a página de login ou captura de e-mail
+            window.location.href = 'landing.html'; // Ou 'login.html', se você tiver uma página específica de login
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
